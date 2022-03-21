@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.camunda.bpm.extension.junit5;
+package org.camunda.impl.test.utils.junit5;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,15 +26,14 @@ import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.RequiredHistoryLevel;
-import org.camunda.bpm.extension.junit5.test.ProcessEngineExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(ProcessEngineExtension.class)
 public class ProcessEngineExtensionJunit5Test {
-  
+
   ProcessEngine engine;
-  
+
   @Test
   @Deployment
   public void extensionUsageExample() {
@@ -48,7 +47,7 @@ public class ProcessEngineExtensionJunit5Test {
     taskService.complete(task.getId());
     assertEquals(0, runtimeService.createProcessInstanceQuery().count());
   }
-  
+
   /**
    * The extension should work with tests that have no deployment annotation
    */
@@ -60,7 +59,7 @@ public class ProcessEngineExtensionJunit5Test {
   @Test
   @RequiredHistoryLevel(ProcessEngineConfiguration.HISTORY_AUDIT)
   public void requiredHistoryLevelAudit() {
-    
+
     assertThat(currentHistoryLevel()).isIn(
         ProcessEngineConfiguration.HISTORY_AUDIT, ProcessEngineConfiguration.HISTORY_FULL);
   }
@@ -70,7 +69,7 @@ public class ProcessEngineExtensionJunit5Test {
   public void requiredHistoryLevelActivity() {
 
     assertThat(currentHistoryLevel()).isIn(
-        ProcessEngineConfiguration.HISTORY_ACTIVITY, 
+        ProcessEngineConfiguration.HISTORY_ACTIVITY,
         ProcessEngineConfiguration.HISTORY_AUDIT,
         ProcessEngineConfiguration.HISTORY_FULL);
   }

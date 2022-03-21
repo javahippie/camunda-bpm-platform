@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.camunda.bpm.extension.junit5.registerExtension;
+package org.camunda.impl.test.utils.junit5.registerExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,26 +22,26 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.extension.junit5.test.ProcessEngineExtension;
+import org.camunda.impl.test.utils.junit5.ProcessEngineExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 public class RegisterProcessEngineExtensionTest {
-  
+
   @RegisterExtension
   ProcessEngineExtension extension = ProcessEngineExtension.builder().build();
-  
+
   @Test
   @Deployment
   public void registeredExtensionUsageExample() {
     RuntimeService runtimeService = extension.getProcessEngine()
         .getRuntimeService();
     runtimeService.startProcessInstanceByKey("registeredExtensionUsage");
-    
+
     TaskService taskService = extension
         .getProcessEngine()
         .getTaskService();
-    
+
     Task task = taskService
         .createTaskQuery()
         .singleResult();

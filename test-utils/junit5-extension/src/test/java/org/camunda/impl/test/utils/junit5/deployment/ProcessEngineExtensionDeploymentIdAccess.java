@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.camunda.bpm.extension.junit5.deployment;
+package org.camunda.impl.test.utils.junit5.deployment;
 
-import org.camunda.bpm.extension.junit5.test.ProcessEngineExtension;
+import org.camunda.impl.test.utils.junit5.ProcessEngineExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
@@ -28,7 +28,7 @@ public class ProcessEngineExtensionDeploymentIdAccess {
   @Test
   public void testDeploymentIdWriteableForExtensions() {
 
-    class ProcessEngineExtensionExtension extends org.camunda.bpm.extension.junit5.test.ProcessEngineExtension {
+    class ProcessEngineExtensionExtension extends ProcessEngineExtension {
 
       @Override
       public void beforeTestExecution(ExtensionContext context) {
@@ -46,7 +46,7 @@ public class ProcessEngineExtensionDeploymentIdAccess {
   @Test
   public void testDeploymentIdReadableForExtensionsAndWrappers() {
 
-    class ProcessEngineExtensionExtension extends org.camunda.bpm.extension.junit5.test.ProcessEngineExtension {
+    class ProcessEngineExtensionExtension extends ProcessEngineExtension {
 
       @Override
       public void afterTestExecution(ExtensionContext context) {

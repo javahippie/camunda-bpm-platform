@@ -14,25 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.camunda.bpm.extension.junit5;
+package org.camunda.impl.test.utils.junit5;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.assertj.core.api.Assertions;
 import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.repository.ProcessDefinition;
-import org.camunda.bpm.extension.junit5.test.ProcessEngineExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(ProcessEngineExtension.class)
-public class ProcessEngineExtensionParentClassResourceDeploymentTest extends ProcessEngineExtensionParentClass {
-  
-  ProcessEngine processEngine;
+public class ProcessEngineExtensionParentClassDeploymentTest extends ProcessEngineExtensionParentClassDeployment {
 
   @Test
-  public void testSuperClassResourcesDeployment() {
-    List<ProcessDefinition> processDefinitions = processEngine.getRepositoryService().createProcessDefinitionQuery().list();
-    Assertions.assertThat(processDefinitions).hasSize(2);
+  public void testDeploymentOnParentClassLevel(ProcessEngine processEngine) {
+    assertNotNull(processEngine.getRepositoryService().createProcessDefinitionQuery().processDefinitionKey("testHelperDeploymentTest").singleResult(),
+        "process is not deployed");
   }
+
 }

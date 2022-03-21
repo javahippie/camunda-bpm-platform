@@ -14,8 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.camunda.bpm.extension.junit5;
+package org.camunda.impl.test.utils.junit5;
 
-public class ProcessEngineExtensionParentClass extends ProcessEngineExtensionSuperClass {
+import java.util.List;
 
+import org.assertj.core.api.Assertions;
+import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+@ExtendWith(ProcessEngineExtension.class)
+public class ProcessEngineExtensionParentClassResourceDeploymentTest extends ProcessEngineExtensionParentClass {
+  
+  ProcessEngine processEngine;
+
+  @Test
+  public void testSuperClassResourcesDeployment() {
+    List<ProcessDefinition> processDefinitions = processEngine.getRepositoryService().createProcessDefinitionQuery().list();
+    Assertions.assertThat(processDefinitions).hasSize(2);
+  }
 }

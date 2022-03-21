@@ -14,37 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.camunda.bpm.extension.junit5;
+package org.camunda.impl.test.utils.junit5;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.assertj.core.api.Assertions;
 import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.extension.junit5.test.ProcessEngineExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(ProcessEngineExtension.class)
-@Deployment(resources = {"processes/superProcess.bpmn", "processes/subProcess.bpmn"})
-public class ProcessEngineExtensionResourcesDeploymentTest {
+@Deployment
+public class ProcessEngineExtensionClassDeploymentTest {
 
-  ProcessEngine processEngine;
-  
   @Test
-  @Deployment(resources = {
-      "processes/superProcess.bpmn", 
-      "processes/subProcess.bpmn"
-      })
-  public void testDeployTwoDiagrams() {
-    List<ProcessDefinition> processDefinitions = processEngine.getRepositoryService().createProcessDefinitionQuery().list();
-    Assertions.assertThat(processDefinitions).hasSize(2);
+  public void testDeploymentOnClassLevel(ProcessEngine processEngine) {
+    assertNotNull(processEngine.getRepositoryService().createProcessDefinitionQuery().processDefinitionKey("testHelperDeploymentTest").singleResult(),
+        "No process deployed with class annotation");
   }
-  
+
   @Test
-  public void testDeployTwoDiagramsFromClassLevel() {
-    List<ProcessDefinition> processDefinitions = processEngine.getRepositoryService().createProcessDefinitionQuery().list();
-    Assertions.assertThat(processDefinitions).hasSize(2);
+  @Deployment
+  public void testDeploymentOnMethodOverridesClass(ProcessEngine processEngine) {
+    assertNotNull(processEngine.getRepositoryService().createProcessDefinitionQuery().processDefinitionKey("testHelperDeploymentTestOverride").singleResult(),
+        "No process deployed for method");
   }
 }

@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.camunda.bpm.extension.junit5.deployment;
+package org.camunda.impl.test.utils.junit5.deployment;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -26,9 +27,9 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 public class ProcessEngineExtensionDeploymentIdTest {
 
   @RegisterExtension
-  CustomProcessEngineExtension extension = 
+  CustomProcessEngineExtension extension =
       (CustomProcessEngineExtension) CustomProcessEngineExtension.builder().build();
-  
+
   @Test
   public void testDeploymentId() {
     assertEquals("mockedDeploymentId", extension.getDeploymentId());

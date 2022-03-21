@@ -14,22 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.camunda.bpm.extension.junit5;
+package org.camunda.impl.test.utils.junit5.deployment;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.camunda.impl.test.utils.junit5.ProcessEngineExtension;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.extension.junit5.test.ProcessEngineExtension;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+public class CustomProcessEngineExtension extends ProcessEngineExtension {
 
-@ExtendWith(ProcessEngineExtension.class)
-public class ProcessEngineExtensionParentClassDeploymentTest extends ProcessEngineExtensionParentClassDeployment {
-  
-  @Test
-  public void testDeploymentOnParentClassLevel(ProcessEngine processEngine) {
-    assertNotNull(processEngine.getRepositoryService().createProcessDefinitionQuery().processDefinitionKey("testHelperDeploymentTest").singleResult(), 
-        "process is not deployed");
+  private static final Logger LOG = LoggerFactory.getLogger(CustomProcessEngineExtension.class);
+
+  @Override
+  public void beforeTestExecution(ExtensionContext context) {
+    LOG.debug("set mocked deploymentId");
+    deploymentId = "mockedDeploymentId";
+  }
+
+  @Override
+  public void afterTestExecution(ExtensionContext context) {
+    LOG.debug("no undeployment needed");
+  }
+
+  public static CustomProcessEngineExtension builder() {
+    return new CustomProcessEngineExtension();
   }
 
 }
